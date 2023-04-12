@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Produit} from "../../models/produit.model";
 import {ProduitService} from "../../services/produit/produit.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-produits',
@@ -9,19 +10,35 @@ import {ProduitService} from "../../services/produit/produit.service";
 })
 export class ProduitsComponent implements OnInit{
 
-  produits : Produit[];
+  produits!: Produit[];
 
-  constructor(private produitService: ProduitService ) {
-    this.produits = produitService.listeProduits();
+  constructor(private produitService: ProduitService, private router: Router) {
   }
 
   ngOnInit(): void {
+    this.chargerProduits();
   }
 
-  supprimerProduit(produit: Produit) {
+  chargerProduits(){
+    this.produitService.listeProduit().subscribe(prods => {
+      console.log(prods);
+      this.produits = prods;
+    });
+  }
+
+
+  supprimerProduit(p: Produit) {
     let conf = confirm("Etes-vous sûr ?");
     if(conf){
-      this.produitService.supprimerProduit(produit);
+      this.produitService.supprimerProduit(p).subscribe(() => {
+        console.log("produit supprimé");
+        this.chargerProduits();
+      });
     }
+  }
+
+
+  gotoUpdateComponent(produit: Produit) {
+    this.router.navigate(['/updateProduit',produit.idProduit]);
   }
 }

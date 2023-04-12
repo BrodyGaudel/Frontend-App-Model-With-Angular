@@ -6,20 +6,16 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" routerLink="/produits">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/add-produit">Ajouter</a>
-        </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Dropdown link
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
+            <li><a class="dropdown-item" routerLink="/produits">Home</a></li>
+            <li><a class="dropdown-item" routerLink="/add-produit">Ajouter</a></li>
+            <li><a class="dropdown-item" routerLink="/rechercheParCategorie">Recherche Par Catégorie</a></li>
+            <li><a class="dropdown-item" routerLink="/rechercheParNom">Recherche Par Nom</a></li>
+            <li><a class="dropdown-item" routerLink="/listeCategories" >Gestion des catégories</a></li>
           </ul>
         </li>
       </ul>

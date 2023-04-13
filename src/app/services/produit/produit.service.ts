@@ -4,6 +4,7 @@ import {Categorie} from "../../models/categorie.model";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {Observable} from "rxjs";
 import {CategorieWrapper} from "../../models/categorieWrapped";
+import {AuthService} from "../auth.service";
 
 const httpOptions = {
   headers: new HttpHeaders( {'Content-Type': 'application/json'} )
@@ -19,7 +20,8 @@ export class ProduitService {
   apiURLCat: string = 'http://localhost:8080/produits/cat';
 
 
-  constructor(private http : HttpClient) {}
+  constructor(private http : HttpClient,
+              public authService: AuthService) {}
 
   listeProduit(): Observable<Produit[]>{
     return this.http.get<Produit[]>(this.apiURL);

@@ -14,6 +14,8 @@ import { SearchFilterPipe } from './search-filter.pipe';
 import {Ng2SearchPipeModule} from "ng2-search-filter";
 import { ListeCategoriesComponent } from './components/liste-categories/liste-categories.component';
 import { UpdateCategorieComponent } from './components/update-categorie/update-categorie.component';
+import { LoginComponent } from './components/login/login.component';
+import { ForbiddenComponent } from './components/forbidden/forbidden.component';
 
 
 @NgModule({
@@ -26,7 +28,9 @@ import { UpdateCategorieComponent } from './components/update-categorie/update-c
     RechercheParNomComponent,
     SearchFilterPipe,
     ListeCategoriesComponent,
-    UpdateCategorieComponent
+    UpdateCategorieComponent,
+    LoginComponent,
+    ForbiddenComponent
   ],
   imports: [
     BrowserModule,

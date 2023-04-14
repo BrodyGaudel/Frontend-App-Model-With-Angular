@@ -31,8 +31,7 @@ export class ProduitService {
   }
 
   listeProduit(): Observable<Produit[]>{
-    let httpHeaders = this.theHeader();
-    return this.http.get<Produit[]>(this.apiURL+"/all",{headers:httpHeaders});
+    return this.http.get<Produit[]>(this.apiURL+"/all");
   }
 
   ajouterProduit( prod: Produit):Observable<Produit>{

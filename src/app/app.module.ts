@@ -7,7 +7,7 @@ import { ProduitsComponent } from './components/produits/produits.component';
 import { AddProduitComponent } from './components/add-produit/add-produit.component';
 import { FormsModule } from '@angular/forms';
 import { UpdateProduitComponent } from './components/update-produit/update-produit.component';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import { RechercheParCategorieComponent } from './components/recherche-par-categorie/recherche-par-categorie.component';
 import { RechercheParNomComponent } from './components/recherche-par-nom/recherche-par-nom.component';
 import { SearchFilterPipe } from './search-filter.pipe';
@@ -16,6 +16,8 @@ import { ListeCategoriesComponent } from './components/liste-categories/liste-ca
 import { UpdateCategorieComponent } from './components/update-categorie/update-categorie.component';
 import { LoginComponent } from './components/login/login.component';
 import { ForbiddenComponent } from './components/forbidden/forbidden.component';
+import {TokenInterceptor} from "./services/interceptor/token.interceptor";
+
 
 
 @NgModule({
@@ -39,7 +41,11 @@ import { ForbiddenComponent } from './components/forbidden/forbidden.component';
     HttpClientModule,
     Ng2SearchPipeModule
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: TokenInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

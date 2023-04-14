@@ -35,25 +35,16 @@ export class ProduitService {
   }
 
   ajouterProduit( prod: Produit):Observable<Produit>{
-    let jwt = this.authService.getToken();
-    jwt = "Bearer "+jwt;
-    let httpHeaders = new HttpHeaders({"Authorization":jwt})
-    return this.http.post<Produit>(this.apiURL+"/addprod", prod, {headers:httpHeaders});
+    return this.http.post<Produit>(this.apiURL+"/addprod", prod);
   }
 
   supprimerProduit(produit: Produit) {
     const url = `${(this.apiURL)}/delprod/${produit.idProduit}`;
-    let jwt = this.authService.getToken();
-    jwt = "Bearer "+jwt;
-    let httpHeaders = new HttpHeaders({"Authorization":jwt})
-    return this.http.delete(url, {headers:httpHeaders});
+    return this.http.delete(url);
   }
   consulterProduit(id: number): Observable<Produit> {
     const url = `${(this.apiURL)}/getbyid/${id}`;
-    let jwt = this.authService.getToken();
-    jwt = "Bearer "+jwt;
-    let httpHeaders = new HttpHeaders({"Authorization":jwt})
-    return this.http.get<Produit>(url,{headers:httpHeaders});
+    return this.http.get<Produit>(url);
   }
   updateProduit(prod :Produit) : Observable<Produit> {
     let jwt = this.authService.getToken();

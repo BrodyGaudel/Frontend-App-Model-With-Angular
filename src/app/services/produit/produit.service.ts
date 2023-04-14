@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Produit} from "../../models/produit.model";
 import {Categorie} from "../../models/categorie.model";
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from "rxjs";
 import {CategorieWrapper} from "../../models/categorieWrapped";
 import {AuthService} from "../auth.service";
@@ -17,58 +17,78 @@ const httpOptions = {
 export class ProduitService {
 
   apiURL: string = 'http://localhost:8080/produits/api';
+
   apiURLCat: string = 'http://localhost:8080/produits/cat';
 
 
   constructor(private http : HttpClient,
               public authService: AuthService) {}
 
+  theHeader(){
+    let jwt = this.authService.getToken();
+    jwt = "Bearer "+jwt;
+    return new HttpHeaders({"Authorization": jwt});
+  }
+
   listeProduit(): Observable<Produit[]>{
-    return this.http.get<Produit[]>(this.apiURL);
+    let httpHeaders = this.theHeader();
+    return this.http.get<Produit[]>(this.apiURL+"/all",{headers:httpHeaders});
   }
 
-  ajouterProduit(prod: Produit): Observable<Produit>{
-    return this.http.post<Produit>(this.apiURL, prod, httpOptions);
+  ajouterProduit( prod: Produit):Observable<Produit>{
+    let jwt = this.authService.getToken();
+    jwt = "Bearer "+jwt;
+    let httpHeaders = new HttpHeaders({"Authorization":jwt})
+    return this.http.post<Produit>(this.apiURL+"/addprod", prod, {headers:httpHeaders});
   }
 
-  supprimerProduit(p: Produit) {
-    const url = `${this.apiURL}/${p.idProduit}`;
-    return this.http.delete(url, httpOptions);
+  supprimerProduit(produit: Produit) {
+    const url = `${(this.apiURL)}/delprod/${produit.idProduit}`;
+    let jwt = this.authService.getToken();
+    jwt = "Bearer "+jwt;
+    let httpHeaders = new HttpHeaders({"Authorization":jwt})
+    return this.http.delete(url, {headers:httpHeaders});
   }
-
-
   consulterProduit(id: number): Observable<Produit> {
-    const url = `${this.apiURL}/${id}`;
-    return this.http.get<Produit>(url);
+    const url = `${(this.apiURL)}/getbyid/${id}`;
+    let jwt = this.authService.getToken();
+    jwt = "Bearer "+jwt;
+    let httpHeaders = new HttpHeaders({"Authorization":jwt})
+    return this.http.get<Produit>(url,{headers:httpHeaders});
   }
-
-  updateProduit(prod :Produit): Observable<Produit>{
-    return this.http.put<Produit>(this.apiURL, prod, httpOptions);
+  updateProduit(prod :Produit) : Observable<Produit> {
+    let jwt = this.authService.getToken();
+    jwt = "Bearer "+jwt;
+    let httpHeaders = new HttpHeaders({"Authorization":jwt})
+    return this.http.put<Produit>(this.apiURL+"/updateprod", prod, {headers:httpHeaders});
   }
 
   listeCategories():Observable<CategorieWrapper>{
-    return this.http.get<CategorieWrapper>(this.apiURLCat);
+    let jwt = this.authService.getToken();
+    jwt = "Bearer "+jwt;
+    let httpHeaders = new HttpHeaders({"Authorization":jwt})
+    return this.http.get<CategorieWrapper>(this.apiURLCat,{headers:httpHeaders}
+    );
   }
-
   rechercherParCategorie(idCat: number): Observable<Produit[]> {
-    const url = `${this.apiURL}/prodscat/${idCat}`;
+    const url = `${(this.apiURL)}/prodscat/${idCat}`;
+    return this.http.get<Produit[]>(url);
+  }
+  rechercherParNom(nom: string):Observable< Produit[]> {
+    const url = `${(this.apiURL)}/prodsByName/${nom}`;
     return this.http.get<Produit[]>(url);
   }
 
-  rechercherParNom(nom: string): Observable<Produit[]> {
-    const url = `${this.apiURL}/prodsByName/${nom}`;
-    return this.http.get<Produit[]>(url);
-  }
-
-  ajouterCategorie( cat: Categorie):Observable<Categorie>{
+  ajouterCategorie(cat: Categorie):Observable<Categorie>{
     return this.http.post<Categorie>(this.apiURLCat, cat, httpOptions);
   }
 
-  supprimerCategorie(id : number) {
-    const url = `${this.apiURLCat}/${id}`;
-    return this.http.delete(url, httpOptions);
+  supprimerCategorie(cat: number){
+    const url = `${(this.apiURL)}/delprod/${cat}`;
+    let jwt = this.authService.getToken();
+    jwt = "Bearer "+jwt;
+    let httpHeaders = new HttpHeaders({"Authorization":jwt})
+    return this.http.delete(url, {headers:httpHeaders});
   }
-
-
 
 }
